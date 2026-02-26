@@ -128,3 +128,23 @@ def predict_mission(model):
 
 # Run CLI with Random Forest
 predict_mission(rf)
+
+from sklearn.metrics import roc_curve, roc_auc_score
+
+# Get probability predictions
+y_prob = rf.predict_proba(X_test)[:, 1]
+
+# Compute ROC values
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+auc_score = roc_auc_score(y_test, y_prob)
+
+# Plot ROC Curve
+plt.figure()
+plt.plot(fpr, tpr)
+plt.plot([0, 1], [0, 1])
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve - Random Forest")
+plt.show()
+
+print("AUC Score:", auc_score)
